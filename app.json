@@ -1,11 +1,11 @@
 {
   "expo": {
     "name": "Tagzi",
-    "slug": "tagzi",
+    "slug": "tagzi-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "sdkVersion": "51.0.0",
+    "sdkVersion": "50.0.0",
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash-logo.png",
@@ -25,29 +25,6 @@
     },
     "web": {
       "favicon": "./assets/icon.png"
-    },
-    "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "ios": {
-            "appDelegate": {
-              "language": "objc"
-            }
-          }
-        }
-      ],
-      [
-        "expo-maps",
-        {
-          "ios": {
-            "apiKey": "Maps_API_KEY_PLACEHOLDER"
-          },
-          "android": {
-            "apiKey": "Maps_API_KEY_PLACEHOLDER"
-          }
-        }
-      ]
-    ]
+    }
   }
 }
