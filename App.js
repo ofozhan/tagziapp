@@ -13,7 +13,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { subDays, startOfMonth, isWithinInterval } from 'date-fns';
 import * as Notifications from 'expo-notifications';
 
-// BİLDİRİM AYARI
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -22,7 +21,6 @@ Notifications.setNotificationHandler({
   }),
 });
 
-// PARA BİRİMİ FORMATLAMA FONKSİYONU
 const formatCurrency = (number) => {
   const roundedUpValue = Math.ceil(number || 0);
   return new Intl.NumberFormat('tr-TR', {
@@ -34,7 +32,7 @@ const formatCurrency = (number) => {
 };
 
 //=================================
-// TODAY SCREEN COMPONENT
+// EKRANLAR VE COMPONENTLER
 //=================================
 const getTodayDateString = () => new Date().toISOString().split('T')[0];
 
@@ -112,6 +110,7 @@ function HistoryScreen({ navigation }) {
   const renderHistoryItem = ({ item }) => (<TouchableOpacity style={styles.historyItem} onPress={() => navigation.navigate('DayDetail', { date: item.date })}><Text style={styles.dateText}>{new Date(item.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</Text><View><Text style={styles.earningsText}>Kazanç: {formatCurrency(item.toplamKazanc)}</Text><Text style={[styles.netProfitText, { color: item.netKar >= 0 ? '#2ecc71' : '#e74c3c' }]}>Net Kâr: {formatCurrency(item.netKar)}</Text></View></TouchableOpacity>);
   return (<SafeAreaView style={styles.container}><View style={styles.summaryContainer}><SummaryBox label="Son 7 Gün" value={summary.last7DaysEarnings} /><SummaryBox label="Bu Ay" value={summary.thisMonthEarnings} /><SummaryBox label="Toplam" value={summary.totalEarnings} /></View><FlatList data={allData} renderItem={renderHistoryItem} keyExtractor={item => item.date} ListEmptyComponent={<Text style={styles.emptyText}>Henüz geçmiş bir kayıt bulunmuyor.</Text>} /></SafeAreaView>);
 }
+
 //=================================
 // DAY DETAIL SCREEN COMPONENT
 //=================================
@@ -149,15 +148,13 @@ export default function App() {
     const setup = async () => {
       try {
         await SplashScreen.preventAutoHideAsync();
-        
-        // Fontlar artık yüklenmediği için bekleme yok, ama açılış ekranı için kısa bir gecikme ekleyebiliriz
         await new Promise(resolve => setTimeout(resolve, 500));
         
         if (Platform.OS === 'android') { await Notifications.setNotificationChannelAsync('default', { name: 'default', importance: Notifications.AndroidImportance.MAX, vibrationPattern: [0, 250, 250, 250], lightColor: '#FF231F7C', }); }
         const { status: existingStatus } = await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
         if (existingStatus !== 'granted') { const { status } = await Notifications.requestPermissionsAsync(); finalStatus = status; }
-        if (finalStatus !== 'granted') { console.log('Bildirim gönderme izni verilmedi!'); }
+        if (finalStatus !== 'granted') { console.log('Bildirim gönderme izni verilmedi!'); return; }
         else {
             await Notifications.cancelAllScheduledNotificationsAsync();
             await Notifications.scheduleNotificationAsync({
