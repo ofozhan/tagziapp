@@ -22,9 +22,6 @@
         "backgroundColor": "#1e272e"
       },
       "package": "com.ofozhan.tagzi"
-    },
-    "web": {
-      "favicon": "./assets/icon.png"
     }
   }
 }
